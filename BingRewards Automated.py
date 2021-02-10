@@ -452,32 +452,33 @@ def main():
         except:
             print("uh, bad input. Please enter y or n")
     for email in f.readlines(): #go through each account, homie
-        if email[-1] == '\n':#gets rid of \n at the end of an email
-            email = email[0:len(email) - 1]
-        email=email.split(",")
-        password=email[2]
-        firstName=email[1]
-        email=email[0]
-        print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email)
-        emailCounter+=1 #add one to emailCounter for the next loop
-        print("Signing in...")
-        errorsEncountered = login(driver,email,errorsEncountered,password) #self explanatory
-        print("Getting point info...")#get info on how many times to search, and various points stats
-        totalPointsEarnable,pointsLeftToEarn,timesToSearch,startingPoints=getPointsInfo(driver,firstName) # gets a bunch of info
-        print("Points at start: " + str(startingPoints))#points on account before program runs
-        print("Points to earn: " + str(pointsLeftToEarn))#points left to earn by searching on this account
-        print("Times to search: " + str(timesToSearch)) #how many times the program will search on bing
-        print("Searching...")
-        search(driver,words,timesToSearch,firstName) # it do be searching tho
-        if quizesOrNot=='y':
-            print("Starting quizes...")
-            doQuizes(driver) #do dem quizes
-        endingPoints = getPointTotal(driver) #get the total points on the account now that the program ran
-        print("Points at end: " + str(endingPoints) + '\n')
-        logout(driver) #log tf out so we can sign into next account
-        totalPointsEarnedInRun+=(endingPoints-startingPoints)  #self explanatory
-        totalPointsEarnedTotal+=endingPoints
-        accountTotals[email]=endingPoints #creates the account's email as a key, and sets it's value to its point total
+        if email!='\n' and email!='':
+            if email[-1] == '\n':#gets rid of \n at the end of an email
+                email = email[0:len(email) - 1]
+            email=email.split(",")
+            password=email[2]
+            firstName=email[1]
+            email=email[0]
+            print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email)
+                emailCounter+=1 #add one to emailCounter for the next loop
+            print("Signing in...")
+            errorsEncountered = login(driver,email,errorsEncountered,password) #self explanatory
+            print("Getting point info...")#get info on how many times to search, and various points stats
+            totalPointsEarnable,pointsLeftToEarn,timesToSearch,startingPoints=getPointsInfo(driver,firstName) # gets a bunch of info
+            print("Points at start: " + str(startingPoints))#points on account before program runs
+            print("Points to earn: " + str(pointsLeftToEarn))#points left to earn by searching on this account
+            print("Times to search: " + str(timesToSearch)) #how many times the program will search on bing
+            print("Searching...")
+            search(driver,words,timesToSearch,firstName) # it do be searching tho
+            if quizesOrNot=='y':
+                print("Starting quizes...")
+                doQuizes(driver) #do dem quizes
+            endingPoints = getPointTotal(driver) #get the total points on the account now that the program ran
+            print("Points at end: " + str(endingPoints) + '\n')
+            logout(driver) #log tf out so we can sign into next account
+            totalPointsEarnedInRun+=(endingPoints-startingPoints)  #self explanatory
+            totalPointsEarnedTotal+=endingPoints
+            accountTotals[email]=endingPoints #creates the account's email as a key, and sets it's value to its point total
     programEndTime=time.perf_counter() #used to get total run tume of program (endtime -starttime)
     print("\n\nAccounts in order of least to most points:\n")
     sorted_keys = sorted(accountTotals, key=accountTotals.get) #sorts the accountTotals dict from least to most points
