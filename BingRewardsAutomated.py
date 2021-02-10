@@ -460,7 +460,7 @@ def main():
             firstName=email[1]
             email=email[0]
             print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email)
-                emailCounter+=1 #add one to emailCounter for the next loop
+            emailCounter+=1 #add one to emailCounter for the next loop
             print("Signing in...")
             errorsEncountered = login(driver,email,errorsEncountered,password) #self explanatory
             print("Getting point info...")#get info on how many times to search, and various points stats
