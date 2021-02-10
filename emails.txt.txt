@@ -1,3 +1,0 @@
-emailman@email.org,FIRSTNAME,PASSWORD
-foodeater@gmail.net,FIRSTNAME,PASSWORD
-thirdemail@site.io,FIRSTNAME,PASSWORD
