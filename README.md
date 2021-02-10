@@ -16,7 +16,7 @@ THIS PROGRAM USES CHROMEDRIVER.EXE. Before using it for the first time, run it o
  
 PROGRAM INFO/TUTORIAL
 
-The BingRewards Automated program searches bing on each account until it reaches maximum points allowed (for isntance, if you can earn 50 points today by seraching it will search 10 times). at the beggining of the program it will ask you if you want to attempt to do the available bing quizes. If you enter 'n', it will simply search on each account and end.
+The BingRewardsAutomated program searches bing on each account until it reaches maximum points allowed (for isntance, if you can earn 50 points today by seraching it will search 10 times). at the beggining of the program it will ask you if you want to attempt to do the available bing quizes. If you enter 'n', it will simply search on each account and end.
 
 if you enter 'y', it will search on each account and also attempt to do the quizes that are available. uh at least i hope it does lol. If you choose this option and the program breaks, run the program again but do not attempt quizes (enter 'n' when prompted), itll just do the searching, no quizes.  the quiz taking functioanlity is a work in progress, and would require a lot of monitoring and updating over time. IMPORTANT:  i havnt tested it with bing Polls yet, so idk if those work. will fix soon. ALSO if it opens a quiz, waits a second, closes out of it without taking it, and the program prints "getting featured link" (but it was a quiz), then that means that there is a new type of quiz or something that i have not coded for. It'll skip it i hope. I will have to program it to be able to take that quiz tho.
 
