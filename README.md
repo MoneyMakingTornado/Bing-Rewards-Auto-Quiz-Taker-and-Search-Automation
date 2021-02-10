@@ -1,5 +1,6 @@
 # Bing-Rewards-Automator
 Automates the accumulation of bing points! (hopefully)
+
 By Daniel Goldberg 2021 (9145824788 for questions)
 
 PUT ALL FILES INTO A FOLDER (on your desktop or wherever). Using winrar or a similar program, extract the zip file into the folder. This zip file contains the libraries that the program uses.
