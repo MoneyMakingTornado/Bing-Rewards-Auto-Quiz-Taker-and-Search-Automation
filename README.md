@@ -2,13 +2,25 @@
 Automates the accumulation of bing points! (hopefully)
 By Daniel Goldberg 2021 (9145824788 for questions)
 
-Takes a txt file called email3.txt that contains a list of bing account emails. One email per row. no empty rows.
 
-BingRewards Automated will logonto each account and search until it reaches max daily searches. for isntance if you can earn 50 points today by searching, it will search 10 times.
+HOW TO ENTER YOUR INFORMATION:
+  in each line of the emails.txt file, write your accounts email, your accounts first name verbatim as   is on bing, and your accounts password, all in the the following format:
+  
+    emailman@email.org,FIRSTNAME,PASSWORD
+    foodeater@gmail.net,FIRSTNAME,PASSWORD
+    thirdemail@site.io,FIRSTNAME,PASSWORD
+    
+  Of course, if you only have one account, just use one line.
 
-BingRewards Automated (with quizes) does the same as the other program, except it also does the quizes that are available. Uh at least i hope it does lol. Its a work in progress, and would require a lot of monitoring and updating over time. IMPORTANT:  i havnt tested it with bing Polls yet, so idk if those work. will fix soon. IMPORTANT: WATCH IT RUN THE FIRST ACCOUNT, if it opens a quiz, waits a second, closes out of it without taking it, and the program prints "getting featured link" (but it was a quiz), then that means that there is a new type of quiz or something that i have not coded for. It'll skip it i hope. I will have to program it to be able to take that quiz tho.
+THIS PROGRAM USES CHROMEDRIVER.EXE. Before using it for the first time, run it once by double clicking it. you can download the newest version here if the one given by me is out of date: https://chromedriver.chromium.org/downloads
+ 
+PROGRAM INFO/TUTORIAL
 
-That being said, for both programs, a lot of the code here is dependent on certain xpath designations and assumptions about how the site works. If Bing changes something, the program might not be able to complete, and needs to be changed. 
+The BingRewards Automated program searches bing on each account until it reaches maximum points allowed (for isntance, if you can earn 50 points today by seraching it will search 10 times). at the beggining of the program it will ask you if you want to attempt to do the available bing quizes. If you enter 'n', it will simply search on each account and end.
+
+if you enter 'y', it will search on each account and also attempt to do the quizes that are available. uh at least i hope it does lol. If you choose this option and the program breaks, run the program again but do not attempt quizes (enter 'n' when prompted), itll just do the searching, no quizes.  the quiz taking functioanlity is a work in progress, and would require a lot of monitoring and updating over time. IMPORTANT:  i havnt tested it with bing Polls yet, so idk if those work. will fix soon. ALSO if it opens a quiz, waits a second, closes out of it without taking it, and the program prints "getting featured link" (but it was a quiz), then that means that there is a new type of quiz or something that i have not coded for. It'll skip it i hope. I will have to program it to be able to take that quiz tho.
+
+That being said, a lot of the code here is dependent on certain xpath designations and assumptions about how the site works. If Bing changes something, the program might not be able to complete, and needs to be changed. 
 
 
 thanks!
