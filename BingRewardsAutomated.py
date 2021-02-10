@@ -429,7 +429,6 @@ def main():
     for word in f.readlines(): #add them words to the list
         words.append(word[:-1])
     f=open("emails.txt") #da list of bing account emails
-    driver = webdriver.Chrome('chromedriver.exe') #start webdriver
     emailCounter=1 #keep track of which account we're on
     totalEmails=len(f.readlines()) #total number of emails to go through
     programStartTime=time.perf_counter() #so at the end we can print how long it took to run.
@@ -451,6 +450,7 @@ def main():
                 print("you had two options, y and n. you failed. try again.")
         except:
             print("uh, bad input. Please enter y or n")
+    driver = webdriver.Chrome('chromedriver.exe') #start webdriver
     for email in f.readlines(): #go through each account, homie
         if email!='\n' and email!='':
             if email[-1] == '\n':#gets rid of \n at the end of an email
