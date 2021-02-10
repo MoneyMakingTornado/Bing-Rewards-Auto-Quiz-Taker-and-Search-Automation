@@ -428,7 +428,7 @@ def main():
     f=open("words.txt") #the list of popular words
     for word in f.readlines(): #add them words to the list
         words.append(word[:-1])
-    f=open("email3.txt") #da list of bing account emails
+    f=open("emails.txt") #da list of bing account emails
     driver = webdriver.Chrome('chromedriver.exe') #start webdriver
     emailCounter=1 #keep track of which account we're on
     totalEmails=len(f.readlines()) #total number of emails to go through
@@ -436,7 +436,7 @@ def main():
     totalPointsEarnedInRun=0 #keep track of points earned by running the program this time
     totalPointsEarnedTotal=0 #keep track of how many points we have overall.
     errorsEncountered=0 #keeps track of how many errors bing sends so we can print em.  program gets past them, dw.
-    f=open("email3.txt") #open da list of bing account emails again so we can go line by line
+    f=open("emails.txt") #open da list of bing account emails again so we can go line by line
     accountTotals={}#dictionary of accounts and how many points is on each one. used at end.
     while True:
         try:
