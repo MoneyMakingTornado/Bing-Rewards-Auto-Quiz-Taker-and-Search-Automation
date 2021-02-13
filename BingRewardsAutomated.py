@@ -379,8 +379,12 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
         #now switch back to the tab with the quizw
         window = driver.window_handles[0]
         driver.switch_to.window(window)
+        url=driver.current_url
         determineQuiz(driver) #determine and do the quiz...
         Quizes = getQuizes(driver)# go back to quizes menu and get all the quizes for the next loop
+        while True:
+                if driver.current_url!=url:
+                    break
         if len(Quizes) == ogQuizLength:  # new kind of quiz was clicked that I have not programmed to complete yet, skip
             quizSkipper += 1
 
