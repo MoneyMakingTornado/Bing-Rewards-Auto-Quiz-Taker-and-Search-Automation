@@ -383,7 +383,7 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
         determineQuiz(driver) #determine and do the quiz...
         Quizes = getQuizes(driver)# go back to quizes menu and get all the quizes for the next loop
         while True:
-                if driver.current_url!=url:
+                if "https://account.microsoft.com/rewards" in driver.current_url:
                     break
         if len(Quizes) == ogQuizLength:  # new kind of quiz was clicked that I have not programmed to complete yet, skip
             quizSkipper += 1
