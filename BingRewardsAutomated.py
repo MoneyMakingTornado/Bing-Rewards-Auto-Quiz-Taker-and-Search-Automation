@@ -188,7 +188,7 @@ def determineQuiz(driver):#used by doQuizes(). determines which kind of quiz we 
     if "ThisOrThat" in driver.current_url:
         print("Doing This or That Quiz")
         thisOrThat(driver)
-    elif "poll" in driver.current_url:
+    elif "POLL" in driver.current_url:
         print("Doing Poll...")
         pollTaker(driver)
     elif "HPQuiz" in driver.current_url:
@@ -439,7 +439,7 @@ def main():
     accountTotals={}#dictionary of accounts and how many points is on each one. used at end.
     while True:
         try:
-            quizesOrNot=input("Do you want me toattempt to do the Bing Quizes as well?\nType 'y' or 'n'\n>> ")
+            quizesOrNot=input("Do you want me to attempt to do the Bing Quizes as well?\nType 'y' or 'n'\n>> ")
             if quizesOrNot =='y':
                 print("sick, lets do those quizies!")
                 break
@@ -455,11 +455,11 @@ def main():
         if email!='\n' and email!='':
             if email[-1] == '\n':#gets rid of \n at the end of an email
                 email = email[0:len(email) - 1]
-            email=email.split(",")
+            email=email.split("!")
             password=email[2]
             firstName=email[1]
             email=email[0]
-            print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email)
+            print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email+' '+firstName)
             emailCounter+=1 #add one to emailCounter for the next loop
             print("Signing in...")
             errorsEncountered = login(driver,email,errorsEncountered,password) #self explanatory
