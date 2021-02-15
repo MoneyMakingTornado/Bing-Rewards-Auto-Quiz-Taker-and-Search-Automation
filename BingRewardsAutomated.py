@@ -3,10 +3,10 @@ from selenium import webdriver
 import random
 import math
 from datetime import date
+from difflib import SequenceMatcher
 
-
-
-
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 def superSonic(driver):#yep. does supersonic quizes
     while True: #click start button
@@ -56,12 +56,45 @@ def lightspeed(driver,loops):#does lightspeedquizes and TandF questions. lightsp
                 endind = html.index('","isMultiChoiceQuizType"')
                 answer = html[ind + 16:endind] #locates the substring of html that is the answer
                 previousAnswer=driver.find_element_by_id("rqAnswerOption0").get_attribute("value") #sets previous answer
+                unicodeProblem=False
+                while True:
+                    if "\\u" in answer:
+                        answerIndex=answer.index("\\u")
+                        answer=answer[0:answerIndex]+answer[answerIndex+6:len(answer)]
+                        unicodeProblem=True
+                    else:
+                        break
+                clicked=False
                 while True:#clicks the correct answer
                     try:
-                        driver.find_element_by_xpath('//*[@data-option="' + answer + '"]').click()
+                        if unicodeProblem==True:
+                            for element in driver.find_elements_by_xpath("//*[@data-option]"):
+                                if similar(answer,element.get_attribute("data-option"))>=.9:
+                                    clicked=True
+                                    element.click()
+                                    break
+                        else:
+                            driver.find_element_by_xpath('//*[@data-option="' + answer + '"]').click()
+                            clicked=True
                         break
                     except:
                         time.sleep(.1)
+                if clicked==False:
+                    elements = driver.find_elements_by_xpath("//*[@data-option]")
+                    for i in range(4):
+                        while True:
+                            try:
+                                elements[i].click()
+                                break
+                            except:
+                                time.sleep(.1)
+                            time.sleep(.2)
+                        try:
+                            if driver.find_element_by_xpath('//*[@class=" rqcorrectAns"]'):
+                                break
+                        except:
+                            pass
+
                 break
 
 
@@ -142,10 +175,10 @@ def thisOrThat(driver):#lovely function. Can't tell answer by looking at xpath. 
 def quizTaker(driver): #takes homepage and news quizes!
     quizOver = False #tells us when da quiz is over
     while True: #loop  until no more questions (quizOver= True)
-        driver.execute_script(
-            "window.scrollTo(0,(document.body.scrollHeight/5))")  # scroll down incase options are blocked by other quiz menus
         while True: #find the right answer. it is shown in the xpath.
             try:
+                driver.execute_script("window.scrollTo(0,(document.body.scrollHeight/5))")  # scroll down incase options are blocked by other quiz menus
+
                 driver.find_element_by_xpath('//*[@class="wk_choicesInstLink"]//*[contains(@id,"ChoiceText")]//*[contains(@id,"statistics")]/../*[1]').click()
                 break
             except:
@@ -225,10 +258,9 @@ def getQuizes(driver): #used by doQuizes() funciton. goes to the quiz menu and g
     return Quizes #return the list.
 
 
-def login(driver,email,errorsEncountered,password): #logs into bing account :) takes account emial and curren error total.
+def login(driver,email,errorsEncountered,password,url): #logs into bing account :) takes account emial and curren error total.
     #go to login page
-    driver.get(
-        "https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1611539831&rver=6.7.6631.0&wp=MBI_SSL&wreply=https%3a%2f%2fwww.bing.com%2fsecure%2fPassport.aspx%3frequrl%3dhttps%253a%252f%252fwww.bing.com%252f%253fwlexpsignin%253d1%26sig%3d334A818C1EDD6FAC2EB88E461F556EBE&lc=1033&id=264960&CSRFToken=136dce96-1e93-492a-a85e-e41e3678db28&aadredir=1")
+    driver.get(url)
     while True: #loop to enter email into text box. so long lol.
         try:
             emailSignin = driver.find_element_by_id('i0116') # tries to type in the email into the email text box
@@ -242,13 +274,12 @@ def login(driver,email,errorsEncountered,password): #logs into bing account :) t
             except:
                 pass
             #if statement if error happened, or some kinda url error happened idk. it has happened before.
-            if  errorFound==True or driver.current_url!="https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1611539831&rver=6.7.6631.0&wp=MBI_SSL&wreply=https%3a%2f%2fwww.bing.com%2fsecure%2fPassport.aspx%3frequrl%3dhttps%253a%252f%252fwww.bing.com%252f%253fwlexpsignin%253d1%26sig%3d334A818C1EDD6FAC2EB88E461F556EBE&lc=1033&id=264960&CSRFToken=136dce96-1e93-492a-a85e-e41e3678db28&aadredir=1":
+            if  errorFound==True or driver.current_url!=url:
                 print("Login error. Restarting driver.")
                 errorsEncountered += 1 #add one to the error counter!
                 driver.quit()  # restart the  driver and go back to the login page
                 driver = webdriver.Chrome('chromedriver.exe')
-                driver.get(
-                    "https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1611539831&rver=6.7.6631.0&wp=MBI_SSL&wreply=https%3a%2f%2fwww.bing.com%2fsecure%2fPassport.aspx%3frequrl%3dhttps%253a%252f%252fwww.bing.com%252f%253fwlexpsignin%253d1%26sig%3d334A818C1EDD6FAC2EB88E461F556EBE&lc=1033&id=264960&CSRFToken=136dce96-1e93-492a-a85e-e41e3678db28&aadredir=1")
+                driver.get(url)
                 while True:  # now we try to enter the email again lol. should work now.
                     try:
                         emailSignin = driver.find_element_by_id(
@@ -296,6 +327,7 @@ def login(driver,email,errorsEncountered,password): #logs into bing account :) t
 
 
 def getPointsInfo(driver,firstName): #gets a whole bunch of stats, and how many timesToSearch on bing
+    driver.get("https://www.bing.com/")
     while True:  # check if profile name is firstName, the first name of every profile. this means page loaded
         try:
             if driver.find_element_by_id("id_n").text == firstName:
@@ -350,10 +382,16 @@ def search(driver,words,timesToSearch,firstName): #function to search stuff. req
         timesToSearch -= 1  # one search complete
 
 
+def loginRewards(driver,email,errorsEncountered,password):
+    driver.get("https://login.live.com/logout.srf?ct=1613241120&rver=7.0.6738.0&lc=1033&id=292666&ru=https%3A%2F%2Faccount.microsoft.com%2Fauth%2Fcomplete-signout%3Fru%3Dhttps%253A%252F%252Faccount.microsoft.com%252Frewards%252Fdashboard%253Frefd%253Dlogin.live.com")
+    errorsEncountered = login(driver,email,errorsEncountered,password,"https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1613241065&rver=7.0.6738.0&wp=MBI_SSL&wreply=https:%2F%2Faccount.microsoft.com%2Fauth%2Fcomplete-signin%3Fru%3Dhttps%253A%252F%252Faccount.microsoft.com%252Frewards%253Fru%253Dhttps%25253A%25252F%25252Faccount.microsoft.com%25252Frewards%25252Fdashboard&lc=1033&id=292666&lw=1&fl=easi2")
+    return errorsEncountered
+
 def doQuizes(driver): #first process of doing the quizes. makes sure we go through each quiz
     Quizes = getQuizes(driver) #get the quizes we have to do. this takes us to the Quiz Menu also
     ogQuizLength = len(Quizes)
     quizSkipper = 0 #if theres a new quiz type or something, and the quiz wasn't actually performed, skip it.
+    print(str(ogQuizLength)+" Quizes to do...")
     for i in range(ogQuizLength): #go through and do each quiz
         # clicking a quiz opens a new tab, we only want one tab at a time. so get hte id of the current tab
         #which is the menu of all the quizes using the code below
@@ -366,8 +404,7 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
                 try:
                     driver.find_element_by_xpath('//*[@id="modal-host"]/div[2]/button').click()
                     break
-                except Exception as e:
-                    print(e)
+                except:
                     time.sleep(.1)
             Quiz.click()
             #this opens a new tab. Switch to the other tab (the menu of all the quizes) and close it
@@ -379,15 +416,16 @@ def doQuizes(driver): #first process of doing the quizes. makes sure we go throu
         #now switch back to the tab with the quizw
         window = driver.window_handles[0]
         driver.switch_to.window(window)
-        url=driver.current_url
         determineQuiz(driver) #determine and do the quiz...
+        driver.get("https://account.microsoft.com/rewards/")
         Quizes = getQuizes(driver)# go back to quizes menu and get all the quizes for the next loop
         while True:
-                if "https://account.microsoft.com/rewards" in driver.current_url:
-                    break
+            if "https://account.microsoft.com/rewards" in driver.current_url:
+                break
+            else:
+                time.sleep(.1)
         if len(Quizes) == ogQuizLength:  # new kind of quiz was clicked that I have not programmed to complete yet, skip
             quizSkipper += 1
-
 
 
 def getPointTotal(driver): #gets current total amount of points on the account
@@ -424,7 +462,10 @@ def logout(driver): #used to log out of bing
             try:
                 account.send_keys("\n")# uh if nothing happend just press enter lol idk
             except:
-                pass
+                try:
+                    account.click()
+                except:
+                    pass
 
 
 def main():
@@ -466,7 +507,8 @@ def main():
             print("Email in use: " +str(emailCounter)+'/'+str(totalEmails)+' '+ email+' '+firstName)
             emailCounter+=1 #add one to emailCounter for the next loop
             print("Signing in...")
-            errorsEncountered = login(driver,email,errorsEncountered,password) #self explanatory
+            errorsEncountered = loginRewards(driver,email,errorsEncountered,password)
+            #errorsEncountered = login(driver,email,errorsEncountered,password,"https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1611539831&rver=6.7.6631.0&wp=MBI_SSL&wreply=https%3a%2f%2fwww.bing.com%2fsecure%2fPassport.aspx%3frequrl%3dhttps%253a%252f%252fwww.bing.com%252f%253fwlexpsignin%253d1%26sig%3d334A818C1EDD6FAC2EB88E461F556EBE&lc=1033&id=264960&CSRFToken=136dce96-1e93-492a-a85e-e41e3678db28&aadredir=1") #self explanatory
             print("Getting point info...")#get info on how many times to search, and various points stats
             totalPointsEarnable,pointsLeftToEarn,timesToSearch,startingPoints=getPointsInfo(driver,firstName) # gets a bunch of info
             print("Points at start: " + str(startingPoints))#points on account before program runs
