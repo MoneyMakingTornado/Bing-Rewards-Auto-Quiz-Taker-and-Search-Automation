@@ -33,7 +33,6 @@ def superSonic(driver):#yep. does supersonic quizes
                 time.sleep(.1)
 
 
-
 def lightspeed(driver,loops):#does lightspeedquizes and TandF questions. lightspd is 4 questions, TandF is one question
     #hence loops will = 4 or 1 accordingly.
     while True: #click start quiz
@@ -218,7 +217,7 @@ def determineQuiz(driver):#used by doQuizes(). determines which kind of quiz we 
     #this means that this function will need to be updated in order to properly determine the quiz type.
     #This also means that if bing creates a new quiz type, it must be added to here, and a function must be created
     #to solve said quiz type.
-    if "ThisOrThat" in driver.current_url:
+    if "thisorthat" in (driver.current_url).lower():
         print("Doing This or That Quiz")
         thisOrThat(driver)
     elif "POLL" in driver.current_url:
@@ -239,6 +238,9 @@ def determineQuiz(driver):#used by doQuizes(). determines which kind of quiz we 
     elif "TrueOrFalse" in driver.current_url:
         print("Doing True or False Quiz...")
         lightspeed(driver, 1)
+    elif "RewardsDefinitions" in driver.current_url:
+        print("Doing Word For Word Quiz...")
+        lightspeed(driver,1)
     else:
         # just load a page for points
         print("Getting Featured Link")
@@ -251,7 +253,7 @@ def getQuizes(driver): #used by doQuizes() funciton. goes to the quiz menu and g
     while True:#find the list of elements of quizes to do. fun xpath lol.
         try:
             Quizes = driver.find_elements_by_xpath(
-                '//*[contains(@class,"mee-icon mee-icon-AddMedium")]/../../../..//*[contains(@ng-class,"Mobile")]//*[(contains(@aria-label,"points") and not(contains(@aria-label,"Start"))) or contains(@aria-label,"more")]')
+                '//*[contains(@class,"mee-icon mee-icon-AddMedium")]/../../../..//*[contains(@ng-class,"Mobile")]//*[(contains(@aria-label,"points") and not(contains(@aria-label,"Start"))) or contains(@aria-label,"Learn ")]')
             break
         except: #hasnt loaded. wait.
             time.sleep(.1)
