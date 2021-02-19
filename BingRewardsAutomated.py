@@ -174,10 +174,9 @@ def thisOrThat(driver):#lovely function. Can't tell answer by looking at xpath. 
 def quizTaker(driver): #takes homepage and news quizes!
     quizOver = False #tells us when da quiz is over
     while True: #loop  until no more questions (quizOver= True)
+        driver.execute_script("window.scrollTo(0,(document.body.scrollHeight/5))")  # scroll down incase options are blocked by other quiz menus
         while True: #find the right answer. it is shown in the xpath.
             try:
-                driver.execute_script("window.scrollTo(0,(document.body.scrollHeight/5))")  # scroll down incase options are blocked by other quiz menus
-
                 driver.find_element_by_xpath('//*[@class="wk_choicesInstLink"]//*[contains(@id,"ChoiceText")]//*[contains(@id,"statistics")]/../*[1]').click()
                 break
             except:
