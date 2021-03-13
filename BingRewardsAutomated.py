@@ -380,6 +380,8 @@ def search(driver,words,timesToSearch,firstName): #function to search stuff. req
                 break
             else:
                 time.sleep(.1)
+        driver.find_element_by_xpath('//*[@id="b_results"]/li[1]').click()
+        driver.get("https://www.bing.com/search?q=banana")
         timesToSearch -= 1  # one search complete
 
 
