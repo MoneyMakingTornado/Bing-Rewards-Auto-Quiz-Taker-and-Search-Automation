@@ -503,7 +503,7 @@ def main():
         if email!='\n' and email!='':
             if email[-1] == '\n':#gets rid of \n at the end of an email
                 email = email[0:len(email) - 1]
-            email=email.split("!")
+            email=email.split(",")
             password=email[2]
             firstName=email[1]
             email=email[0]
